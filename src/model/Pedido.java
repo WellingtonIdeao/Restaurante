@@ -36,6 +36,7 @@ public abstract class Pedido extends EntityGeneric {
 	private List<ItemPedido> itens;
 	
 	@ManyToOne
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 
 	@Override

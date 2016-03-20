@@ -3,66 +3,87 @@ package service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 import dao.ClienteDAO;
-import dao.PedidoDAO;
 import model.Cliente;
-import model.Pedido;
 
-public class ClienteService {
-	public static EntityManagerFactory fac = Persistence.createEntityManagerFactory("Restaurante");
 
-	public void CadastrarCliente(Cliente c) {
+public class ClienteService extends AbstractService {
+
+	public void inserir(Cliente c) {
 		EntityManager manager = fac.createEntityManager();
-		ClienteDAO dao = new ClienteDAO(manager);
-		dao.inserir(c);
-		PedidoDAO daopedido = new PedidoDAO(manager);
-		
-		for(Pedido p: c.getPedidos()){
-			daopedido.inserir(p);
-			p.setCliente(c);
-			
+		ClienteDAO Cdao = new ClienteDAO(manager);
+		try {
+			Cdao.inserir(c);
+			manager.getTransaction().begin();
+			manager.getTransaction().commit();
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+		} finally {
+			manager.close();
 		}
-		
-		manager.getTransaction().begin();
-		manager.getTransaction().commit();
 
 	}
 
-	public void mostrarClientes() {
+	public List<Cliente> listar() {
 		EntityManager manager = fac.createEntityManager();
-		ClienteDAO dao = new ClienteDAO(manager);
-		List<Cliente> list = dao.listar();
-		for (Cliente c : list) {
-			System.out.println("id: " + c.getId() + "\tnome: " + c.getNome() + "\n");
+		List<Cliente> list = null;
+		try {
+			ClienteDAO Cdao = new ClienteDAO(manager);
+			list = Cdao.listar();
+		} catch (Exception e) {
+			e.getStackTrace();
+		} finally {
+			manager.close();
 		}
-
+		return list;
 	}
 
 	public boolean remover(Cliente c) {
 		EntityManager manager = fac.createEntityManager();
-		ClienteDAO dao = new ClienteDAO(manager);
-		manager.getTransaction().begin();
-		if (dao.remover(c)) {
+		boolean ret = false;
+		try {
+			ClienteDAO Cdao = new ClienteDAO(manager);
+			Cdao.remover(c);
+			manager.getTransaction().begin();
 			manager.getTransaction().commit();
-			return true;
-		} else {
+			ret = true;
+		} catch (Exception e) {
 			manager.getTransaction().rollback();
-			return false;
+		} finally {
+			manager.close();
 		}
+		return ret;
+
 	}
 
-	public void atualizar(Cliente c) {
+	public boolean atualizar(Cliente c) {
 		EntityManager manager = fac.createEntityManager();
-		ClienteDAO dao = new ClienteDAO(manager);
-		Cliente c1 = c;
-		dao.atualizar(c);
-		c1.setNome("paulo");
-		manager.getTransaction().begin();
-		manager.getTransaction().commit();
+		boolean ret = false;
+		try {
+			ClienteDAO Cdao = new ClienteDAO(manager);
+			Cdao.atualizar(c);
+			manager.getTransaction().begin();
+			manager.getTransaction().commit();
+			ret = true;
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+		} finally {
+			manager.close();
+		}
+		return ret;
+	}
 
+	public Cliente buscar(Cliente c) {
+		EntityManager manager = fac.createEntityManager();
+		try{
+			ClienteDAO Cdao = new ClienteDAO(manager);
+			c = Cdao.buscarPorId(c.getId());
+		}catch(Exception e){
+			e.getStackTrace();
+		}finally{
+			manager.close();
+		}
+		return c;	
 	}
 
 }

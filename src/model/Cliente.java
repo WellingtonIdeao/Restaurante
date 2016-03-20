@@ -110,5 +110,9 @@ public class Cliente extends EntityGeneric {
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
 	}
+	@Override
+	public String toString() {
+		return "id: " + getId() + "\tnome: " + getNome() + "\n";
+	}
 	
 }

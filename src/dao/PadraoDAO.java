@@ -26,18 +26,13 @@ public abstract class PadraoDAO<T extends EntityGeneric> {
 				return consulta.getResultList();
 		
 	}
-	public void atualizar(T entity){ //?????
+	public void atualizar(T entity){
 		entity = manager.merge(entity);
 	}
-	public boolean remover(T entity){
+	public void remover(T entity){
 		entity = manager.find(entityClass(),entity.getId());
-		
-		if(entity != null){
 			manager.remove(entity);
-			return true;
-		}
-		else
-			return false;
+	
 	
 	}
 	

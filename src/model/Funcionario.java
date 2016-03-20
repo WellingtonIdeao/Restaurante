@@ -46,5 +46,11 @@ public class Funcionario extends Usuario {
 		this.endereco = endereco;
 	}
 
+	@Override
+	public String toString() {
+		return "id: "+this.getId()+" nome: "+this.getNome()+" "+this.getCargo();
+	}
+
+	
 
 }
