@@ -11,8 +11,9 @@ public class ItemPedidoService extends AbstractService {
 
 	public void inserir(ItemPedido i) {
 		EntityManager manager = fac.createEntityManager();
-		ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
+		
 		try {
+			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
 			Ipdao.inserir(i);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();

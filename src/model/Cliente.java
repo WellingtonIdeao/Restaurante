@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class Cliente extends EntityGeneric {
 	
 	private String telefone;
 	
-	@OneToMany(mappedBy ="cliente")
+	@OneToMany(mappedBy ="cliente",cascade = CascadeType.REMOVE)
 	private List<Pedido> pedidos;
 	
 	@OneToOne(mappedBy="cliente")
@@ -43,6 +44,7 @@ public class Cliente extends EntityGeneric {
 
 	public Cliente(){
 		this.pedidos = new ArrayList<>();
+		this.ende = new Endereco();
 		
 	}
 	@Override
@@ -112,7 +114,7 @@ public class Cliente extends EntityGeneric {
 	}
 	@Override
 	public String toString() {
-		return "id: " + getId() + "\tnome: " + getNome() + "\n";
+		return "id: " + getId() + "\tnome: " + getNome() +"\n";
 	}
 	
 }

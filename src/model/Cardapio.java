@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,10 +21,11 @@ public class Cardapio extends EntityGeneric {
 	private String nome;
 	private double preco;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "categ_id")
 	private Categoria categoria;
-
+	
+	
 	@Override
 	public void setId(long id) {
 		this.id = id;

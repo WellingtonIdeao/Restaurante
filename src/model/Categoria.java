@@ -1,14 +1,14 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 @Entity
@@ -23,7 +23,10 @@ public class Categoria extends EntityGeneric {
 	
 	@OneToMany(mappedBy="categoria")
 	private List<Cardapio> cardapios;
-
+	
+	public Categoria(){
+		this.cardapios = new ArrayList<>();
+	}
 	@Override
 	public void setId(long id) {
 		this.id = id;

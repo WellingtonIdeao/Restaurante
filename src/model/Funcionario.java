@@ -13,7 +13,10 @@ public class Funcionario extends Usuario {
 
 	@Embedded
 	private Endereco endereco;
-
+	public Funcionario(){
+		this.endereco = new Endereco();
+		
+	}
 	public double getSalario() {
 		return salario;
 	}

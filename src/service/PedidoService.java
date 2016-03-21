@@ -10,15 +10,10 @@ import model.Pedido;
 
 public class PedidoService extends AbstractService {
 
-	public void inserir(Pedido p) throws Exception {
+	public void inserir(Pedido p) {
 		EntityManager manager = fac.createEntityManager();
 			try {
-				PedidoDAO Pdao = new PedidoDAO(manager);
-				ItemPedidoService IpServ = new ItemPedidoService();
-				for (ItemPedido i : p.getItens()) {
-						IpServ.inserir(i);
-				}
-			
+				PedidoDAO Pdao = new PedidoDAO(manager);		
 				Pdao.inserir(p);
 				manager.getTransaction().begin();
 				manager.getTransaction().commit();

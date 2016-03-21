@@ -1,5 +1,6 @@
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,8 +21,9 @@ public class ItemPedido extends EntityGeneric {
 	private int qtd;
 	private double precoitem;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Cardapio cardapio;
+
 
 	@Override
 	public long getId() {

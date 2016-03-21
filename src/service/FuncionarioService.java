@@ -5,13 +5,14 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import dao.FuncionarioDAO;
+import model.EntityGeneric;
 import model.Funcionario;
 
 public class FuncionarioService extends AbstractService {
 
-	public void inserir(Funcionario f) {
+	public void inserir(Funcionario f)  {
 		EntityManager manager = fac.createEntityManager();
-
+		
 		try {
 
 			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
@@ -32,7 +33,6 @@ public class FuncionarioService extends AbstractService {
 		boolean ret = false;
 		try {
 			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
-
 			Fdao.remover(f);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
