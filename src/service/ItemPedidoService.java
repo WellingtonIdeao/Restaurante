@@ -13,12 +13,18 @@ public class ItemPedidoService extends AbstractService {
 		EntityManager manager = fac.createEntityManager();
 		
 		try {
+			if(i.getCardapio()==null){
+				throw new Exception("Item do pedido sem cardapio");
+			}
+			
 			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
 			Ipdao.inserir(i);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			System.out.println(e.getMessage());
+			if(manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -32,7 +38,9 @@ public class ItemPedidoService extends AbstractService {
 			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
 			list = Ipdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -49,7 +57,9 @@ public class ItemPedidoService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -67,7 +77,9 @@ public class ItemPedidoService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -80,7 +92,9 @@ public class ItemPedidoService extends AbstractService {
 			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
 			i = Ipdao.buscarPorId(i.getId());
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}

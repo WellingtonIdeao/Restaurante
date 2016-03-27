@@ -1,25 +1,28 @@
 package service;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import dao.CardapioDAO;
-import dao.ClienteDAO;
-import dao.ReservaDAO;
 import model.Cardapio;
-import model.Cliente;
-import model.ItemPedido;
 
 public class CardapioService extends AbstractService {
-	public void inserir(Cardapio c) throws Exception {
+	public void inserir(Cardapio c)  {
 		EntityManager manager = fac.createEntityManager();
 			try {
+				if(c.getCategoria() == null){
+					throw new Exception("Cardapio Sem categoria");
+				}
+				
 				CardapioDAO Cdao = new CardapioDAO(manager);
 				Cdao.inserir(c);
 				manager.getTransaction().begin();
 				manager.getTransaction().commit();
 			} catch (Exception e) {
-				manager.getTransaction().rollback();
+				System.out.println(e.getMessage());
+				if(manager.getTransaction().isActive())
+					manager.getTransaction().rollback();
 			} finally {
 				manager.close();
 			}	
@@ -33,7 +36,9 @@ public class CardapioService extends AbstractService {
 			CardapioDAO Cdao = new CardapioDAO(manager);
 			list = Cdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -50,7 +55,9 @@ public class CardapioService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -68,7 +75,9 @@ public class CardapioService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -77,16 +86,17 @@ public class CardapioService extends AbstractService {
 
 	public Cardapio buscar(Cardapio c) {
 		EntityManager manager = fac.createEntityManager();
-		try{
+		try {
 			CardapioDAO Cdao = new CardapioDAO(manager);
 			c = Cdao.buscarPorId(c.getId());
-		}catch(Exception e){
-			e.getStackTrace();
-		}finally{
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
+		} finally {
 			manager.close();
 		}
-		return c;	
+		return c;
 	}
-
 
 }

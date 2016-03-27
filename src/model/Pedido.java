@@ -1,10 +1,11 @@
 package model;
 
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -21,29 +21,31 @@ import javax.persistence.TemporalType;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator (name = "ped_id", sequenceName = "ped_seq",allocationSize = 1)
-public abstract class Pedido extends EntityGeneric {
+public abstract class Pedido implements EntityGeneric {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ped_id")
 	@Column(name = "pedido_id")
 	private long id;
+	private String telefone;
+	private double precoPedido;
+	private Status status;
 	
 	@Temporal(TemporalType.DATE)
 	private Date data;
 	
-	private double precoPedido;
-	private Status status;
+	@ManyToOne
+	private Funcionario funcionario;
 	
-	@OneToMany(cascade =CascadeType.PERSIST)
+	@OneToMany(mappedBy= "pedido")
 	private List<ItemPedido> itens;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="cliente_id")
-	private Cliente cliente;
-
 	
 	public Pedido(){
 		this.itens = new ArrayList<>();
-	}
+		Calendar calendar = Calendar.getInstance();
+		this.data = calendar.getTime();
+			
+	} 
+	
 	@Override
 	public void setId(long id) {
 		this.id = id;
@@ -53,6 +55,31 @@ public abstract class Pedido extends EntityGeneric {
 	public long getId() {
 		return this.id;
 	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
+
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
+	}
+
 
 	public Date getData() {
 		return data;
@@ -78,13 +105,6 @@ public abstract class Pedido extends EntityGeneric {
 		this.itens.add(item);
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 
 	public double getPrecoPedido() {
 		return this.precoPedido;
@@ -102,9 +122,5 @@ public abstract class Pedido extends EntityGeneric {
 		
 	}
 
-	@Override
-	public String toString() {
-		return "Cliente: "+this.cliente.getNome()+" Data: "+this.data+" Valor: "+getPrecoPedido()+"\n";
-			 
-	}
+	
 }

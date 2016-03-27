@@ -9,6 +9,7 @@ public class ClienteDAO extends PadraoDAO<Cliente> {
 		super(manager);
 	}
 
+
 	@Override
 	public Class<Cliente> entityClass() {
 		return  Cliente.class;

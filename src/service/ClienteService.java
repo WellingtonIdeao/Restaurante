@@ -7,17 +7,21 @@ import dao.ClienteDAO;
 import model.Cliente;
 
 
+
 public class ClienteService extends AbstractService {
 
 	public void inserir(Cliente c) {
 		EntityManager manager = fac.createEntityManager();
 		ClienteDAO Cdao = new ClienteDAO(manager);
+		
 		try {
 			Cdao.inserir(c);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			System.out.println(e.getMessage());
+			if(manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -31,7 +35,9 @@ public class ClienteService extends AbstractService {
 			ClienteDAO Cdao = new ClienteDAO(manager);
 			list = Cdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -48,7 +54,9 @@ public class ClienteService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -66,7 +74,9 @@ public class ClienteService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();;
 		} finally {
 			manager.close();
 		}
@@ -79,7 +89,9 @@ public class ClienteService extends AbstractService {
 			ClienteDAO Cdao = new ClienteDAO(manager);
 			c = Cdao.buscarPorId(c.getId());
 		}catch(Exception e){
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		}finally{
 			manager.close();
 		}

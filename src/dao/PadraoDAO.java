@@ -27,7 +27,7 @@ public abstract class PadraoDAO<T extends EntityGeneric> {
 		
 	}
 	public void atualizar(T entity){
-		manager.merge(entity);
+		 manager.merge(entity);
 	
 	}
 	public void remover(T entity){

@@ -17,7 +17,9 @@ public class CategoriaService extends AbstractService {
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			System.out.println(e.getMessage());
+			if(manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -31,7 +33,9 @@ public class CategoriaService extends AbstractService {
 			CategoriaDAO Cdao = new CategoriaDAO(manager);
 			list = Cdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -48,7 +52,9 @@ public class CategoriaService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -66,7 +72,9 @@ public class CategoriaService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -79,7 +87,9 @@ public class CategoriaService extends AbstractService {
 			CategoriaDAO Cdao = new CategoriaDAO(manager);
 			c = Cdao.buscarPorId(c.getId());
 		}catch(Exception e){
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		}finally{
 			manager.close();
 		}

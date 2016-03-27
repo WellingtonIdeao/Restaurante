@@ -5,25 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import dao.PedidoDAO;
-import model.ItemPedido;
 import model.Pedido;
 
 public class PedidoService extends AbstractService {
-
-	public void inserir(Pedido p) {
-		EntityManager manager = fac.createEntityManager();
-			try {
-				PedidoDAO Pdao = new PedidoDAO(manager);		
-				Pdao.inserir(p);
-				manager.getTransaction().begin();
-				manager.getTransaction().commit();
-			} catch (Exception e) {
-				manager.getTransaction().rollback();
-			} finally {
-				manager.close();
-			}	
-
-}
 
 	public List<Pedido> listar() {
 		EntityManager manager = fac.createEntityManager();
@@ -32,7 +16,9 @@ public class PedidoService extends AbstractService {
 			PedidoDAO Pdao = new PedidoDAO(manager);
 			list = Pdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -49,7 +35,9 @@ public class PedidoService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -67,7 +55,9 @@ public class PedidoService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -80,7 +70,9 @@ public class PedidoService extends AbstractService {
 			PedidoDAO Pdao = new PedidoDAO(manager);
 			p = Pdao.buscarPorId(p.getId());
 		}catch(Exception e){
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		}finally{
 			manager.close();
 		}

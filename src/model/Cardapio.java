@@ -1,19 +1,15 @@
 package model;
 
-import java.util.ArrayList;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 @Entity
 @SequenceGenerator(name = "cardap_id",sequenceName = "cardap_seq",allocationSize = 1)
-public class Cardapio extends EntityGeneric {
+public class Cardapio implements EntityGeneric, Produto {
 	@Id
 	@GeneratedValue(strategy =GenerationType.SEQUENCE, generator = "cardap_id")
 	@Column(name = "cardap_id")
@@ -21,10 +17,8 @@ public class Cardapio extends EntityGeneric {
 	private String nome;
 	private double preco;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "categ_id")
+	@ManyToOne
 	private Categoria categoria;
-	
 	
 	@Override
 	public void setId(long id) {
@@ -59,5 +53,11 @@ public class Cardapio extends EntityGeneric {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
+	@Override
+	public String toString() {
+		return getNome()+" (R$ "+getPreco()+")";
+	}
+	
 
 }

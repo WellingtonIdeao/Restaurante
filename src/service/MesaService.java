@@ -8,17 +8,17 @@ import model.Mesa;
 
 public class MesaService extends AbstractService{
 	
-	public void inserir(Mesa m) throws Exception {
+	public void inserir(Mesa m) {
 		EntityManager manager = fac.createEntityManager();
 			try {
 				MesaDAO Mdao = new MesaDAO(manager);
-				
-			
 				Mdao.inserir(m);
 				manager.getTransaction().begin();
 				manager.getTransaction().commit();
 			} catch (Exception e) {
-				manager.getTransaction().rollback();
+				e.printStackTrace();
+				if (manager.getTransaction().isActive())
+					manager.getTransaction().rollback();
 			} finally {
 				manager.close();
 			}	
@@ -32,7 +32,9 @@ public class MesaService extends AbstractService{
 			MesaDAO Mdao = new MesaDAO(manager);
 			list = Mdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -49,7 +51,9 @@ public class MesaService extends AbstractService{
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -67,7 +71,9 @@ public class MesaService extends AbstractService{
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -76,8 +82,17 @@ public class MesaService extends AbstractService{
 
 	public Mesa buscar(Mesa m) {
 		EntityManager manager = fac.createEntityManager();
-		MesaDAO Mdao = new MesaDAO(manager);
-		return m = Mdao.buscarPorId(m.getId());
+		try{
+			MesaDAO Mdao = new MesaDAO(manager);
+			m = Mdao.buscarPorId(m.getId());
+		}catch(Exception e){
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
+		}finally{
+			manager.close();
+		}
+		return m;
 	}
 
 }

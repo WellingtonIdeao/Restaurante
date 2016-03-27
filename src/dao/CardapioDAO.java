@@ -7,7 +7,7 @@ public class CardapioDAO extends PadraoDAO<Cardapio> {
 
 	public CardapioDAO(EntityManager manager) {
 		super(manager);
-
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

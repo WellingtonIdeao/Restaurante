@@ -21,7 +21,9 @@ public class FuncionarioService extends AbstractService {
 			manager.getTransaction().commit();
 
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -39,7 +41,9 @@ public class FuncionarioService extends AbstractService {
 			ret = true;
 
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -56,7 +60,9 @@ public class FuncionarioService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -71,7 +77,9 @@ public class FuncionarioService extends AbstractService {
 			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
 			list = Fdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -84,7 +92,9 @@ public class FuncionarioService extends AbstractService {
 			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
 			f = Fdao.buscarPorId(f.getId());
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}

@@ -12,13 +12,15 @@ public class ReservaService extends AbstractService {
 		EntityManager manager = fac.createEntityManager();
 			try {
 				ReservaDAO Rdao = new ReservaDAO(manager);
-				
-			
+				if(r.getMesa() == null)
+					throw new Exception("Reserva sem mesa");
 				Rdao.inserir(r);
 				manager.getTransaction().begin();
 				manager.getTransaction().commit();
 			} catch (Exception e) {
-				manager.getTransaction().rollback();
+				System.out.println(e.getMessage());
+				if (manager.getTransaction().isActive())
+					manager.getTransaction().rollback();
 			} finally {
 				manager.close();
 			}	
@@ -32,7 +34,9 @@ public class ReservaService extends AbstractService {
 			ReservaDAO Rdao = new ReservaDAO(manager);
 			list = Rdao.listar();
 		} catch (Exception e) {
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -49,7 +53,9 @@ public class ReservaService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -67,7 +73,9 @@ public class ReservaService extends AbstractService {
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			manager.getTransaction().rollback();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
@@ -80,7 +88,9 @@ public class ReservaService extends AbstractService {
 			ReservaDAO Rdao = new ReservaDAO(manager);
 			r = Rdao.buscarPorId(r.getId());
 		}catch(Exception e){
-			e.getStackTrace();
+			e.printStackTrace();
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
 		}finally{
 			manager.close();
 		}

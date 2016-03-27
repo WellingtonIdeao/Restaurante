@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,34 +18,31 @@ import javax.persistence.TemporalType;
 
 @Entity
 @SequenceGenerator(name = "cliente_id", sequenceName = "cliente_seq", allocationSize = 1)
-public class Cliente extends EntityGeneric {
+public class Cliente implements EntityGeneric {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_id")
 	@Column(name = "cliente_id")
 	private long id;
-
 	private String nome;
 	private String cpf;
+	private String telefone;
 	
 	@Temporal(TemporalType.DATE)
 	private Date dataNasc;
 	
-	private String telefone;
+	@OneToMany(mappedBy = "cliente")
+	private List<Delivery> pedidos;
 	
-	@OneToMany(mappedBy ="cliente",cascade = CascadeType.REMOVE)
-	private List<Pedido> pedidos;
-	
-	@OneToOne(mappedBy="cliente")
+	@OneToOne
 	private Reserva reserva;
 
 	@Embedded
 	private Endereco ende;
 
 	public Cliente(){
-		this.pedidos = new ArrayList<>();
 		this.ende = new Endereco();
-		
 	}
+	
 	@Override
 	public long getId() {
 		return id;
@@ -97,14 +93,6 @@ public class Cliente extends EntityGeneric {
 		this.ende = ende;
 	}
 
-	public List<Pedido> getPedidos() {
-		return pedidos;
-	}
-
-	public void setPedidos(Pedido pedido) {
-		this.pedidos.add(pedido);
-	}
-
 	public Reserva getReserva() {
 		return reserva;
 	}
@@ -112,9 +100,19 @@ public class Cliente extends EntityGeneric {
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
 	}
+	
+	public List<Delivery> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Delivery> pedidos) {
+		this.pedidos = pedidos;
+	}
+
 	@Override
 	public String toString() {
-		return "id: " + getId() + "\tnome: " + getNome() +"\n";
+		return "Id: "+getId()+" Nome: "+getNome();
 	}
+	
 	
 }

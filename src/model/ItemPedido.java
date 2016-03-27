@@ -1,30 +1,29 @@
 package model;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
 @SequenceGenerator(name = "itemPed_id",sequenceName = "itemPed_seq",allocationSize = 1)
-public class ItemPedido extends EntityGeneric {
+public class ItemPedido implements EntityGeneric {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator = "itemPed_id")
 	@Column(name = "itemPed_id")
 	private long id;
-	
 	private int qtd;
 	private double precoitem;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	private Cardapio cardapio;
-
-
+	
+	@ManyToOne
+	private Pedido pedido;
+	
+	
 	@Override
 	public long getId() {
 		return this.id;
@@ -58,7 +57,24 @@ public class ItemPedido extends EntityGeneric {
 	public void setPrecoitem(double precoitem) {
 		this.precoitem = precoitem;
 	}
-	private void total(){
-		this.precoitem = qtd * getCardapio().getPreco();
+	private void subTotal(){
+		this.precoitem = this.qtd * getCardapio().getPreco();
 	}
+	
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	@Override
+	public String toString() {
+		return "Id: "+getId()+" Descricao: "+this.cardapio.getNome()+" Quantidade: "+this.getQtd()+
+				" Total: R$ "+getPrecoitem();
+	}
+	
+	
+
 }

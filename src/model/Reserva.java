@@ -2,42 +2,34 @@ package model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @Entity
 @SequenceGenerator(name = "reserv_id",sequenceName = "reserv_seq", allocationSize = 1)
-public class Reserva extends EntityGeneric {
+public class Reserva implements EntityGeneric {
 	@Id
 	@GeneratedValue(strategy= GenerationType.SEQUENCE , generator = "reserv_id")
 	@Column(name = "reserv_id")
 	private long id;
+	private int numPessoas;
+	private String responsavel;
 	
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date horarioInicial;
 	
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date horarioFinal;
 	
-	private int numPessoas;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name="mesa_id")
+	@ManyToOne
 	private Mesa mesa;
 	
-	@OneToOne
-	@JoinColumn(name ="cliente_id")
-	private Cliente cliente;
-
 	@Override
 	public long getId() {
 		return id;
@@ -79,13 +71,18 @@ public class Reserva extends EntityGeneric {
 	public void setMesa(Mesa mesa) {
 		this.mesa = mesa;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
+	public String getResponsavel() {
+		return responsavel;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	@Override
+	public String toString() {
+		return "Data Inicio: "+getHorarioInicial()+" Data Fim: "+getHorarioFinal()+mesa+
+				" Responsavel: "+getResponsavel()+"\n";
 	}
 
 }

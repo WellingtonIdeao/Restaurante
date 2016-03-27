@@ -2,7 +2,6 @@
 package model;
 
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 @Entity
 public class Funcionario extends Usuario {
@@ -11,12 +10,6 @@ public class Funcionario extends Usuario {
 	private String cpf;
 	private Cargo cargo;
 
-	@Embedded
-	private Endereco endereco;
-	public Funcionario(){
-		this.endereco = new Endereco();
-		
-	}
 	public double getSalario() {
 		return salario;
 	}
@@ -41,17 +34,11 @@ public class Funcionario extends Usuario {
 		this.cargo = cargo;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "id: "+this.getId()+" nome: "+this.getNome()+" "+this.getCargo();
+		return "Id: "+getId()+" Nome: "+this.getNome()+" Cpf: "+getCpf()+" Cargo: "+getCargo()+
+				" Salário: R$ "+getSalario();
 	}
 
 	
