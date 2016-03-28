@@ -2,11 +2,10 @@ package model;
 
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +29,7 @@ public class Cliente implements EntityGeneric {
 	@Temporal(TemporalType.DATE)
 	private Date dataNasc;
 	
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
 	private List<Delivery> pedidos;
 	
 	@OneToOne
@@ -89,8 +88,13 @@ public class Cliente implements EntityGeneric {
 		return ende;
 	}
 
-	public void setEnde(Endereco ende) {
-		this.ende = ende;
+	public void setEnde(String rua,String bairro, String cidade, int  num, String cep, String  complemento ) {
+		this.ende.setRua(rua);
+		this.ende.setBairro(bairro);
+		this.ende.setCidade(cidade);
+		this.ende.setNum(num);
+		this.ende.setCep(cep);
+		this.ende.setComplemento(complemento);
 	}
 
 	public Reserva getReserva() {

@@ -66,13 +66,7 @@ public class ItemPedido implements EntityGeneric {
 		this.pedido = pedido;
 	}
 
-	public void addProduto(int qtd, Produto produto) {
-		this.qtd = qtd;
-		this.produto = produto;
-		this.subTotal();
-	}
-
-	private void subTotal() {
+	public void subTotal() {
 		this.precoitem = this.qtd * this.produto.getPreco();
 	}
 

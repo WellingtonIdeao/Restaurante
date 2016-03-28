@@ -114,7 +114,14 @@ public abstract class Pedido implements EntityGeneric {
 	public void setPrecoPedido(double precoPedido) {
 		this.precoPedido = precoPedido;
 	}
-	
+	public void addProduto(int qtd, Produto produto) {
+		ItemPedido item = new ItemPedido();
+		item.setProduto(produto);
+		item.setQtd(qtd);
+		this.itens.add(item);
+		item.subTotal();
+		this.total();
+	}
 	private void total(){
 		double total = 0;
 		for(ItemPedido i: itens){
