@@ -1,29 +1,25 @@
 package service;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
+import dao.ProdutoDAO;
+import model.Produto;
 
-import dao.ItemPedidoDAO;
-import model.ItemPedido;
-
-public class ItemPedidoService extends AbstractService {
-
-	public void inserir(ItemPedido i) {
+public class ProdutoService extends AbstractService {
+	public void inserir(Produto p) {
 		EntityManager manager = fac.createEntityManager();
-		
 		try {
-			if(i.getCardapio()==null){
-				throw new Exception("Item do pedido sem cardapio");
+			if (p.getCategoria() == null) {
+				throw new Exception("Cardapio Sem categoria");
 			}
-			
-			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
-			Ipdao.inserir(i);
+
+			ProdutoDAO Pdao = new ProdutoDAO(manager);
+			Pdao.inserir(p);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			if(manager.getTransaction().isActive())
+			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
@@ -31,12 +27,12 @@ public class ItemPedidoService extends AbstractService {
 
 	}
 
-	public List<ItemPedido> listar() {
+	public List<Produto> listar() {
 		EntityManager manager = fac.createEntityManager();
-		List<ItemPedido> list = null;
+		List<Produto> list = null;
 		try {
-			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
-			list = Ipdao.listar();
+			ProdutoDAO Pdao = new ProdutoDAO(manager);
+			list = Pdao.listar();
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (manager.getTransaction().isActive())
@@ -47,12 +43,12 @@ public class ItemPedidoService extends AbstractService {
 		return list;
 	}
 
-	public boolean remover(ItemPedido i) {
+	public boolean remover(Produto p) {
 		EntityManager manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
-			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
-			Ipdao.remover(i);
+			ProdutoDAO Pdao = new ProdutoDAO(manager);
+			Pdao.remover(p);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
@@ -67,12 +63,14 @@ public class ItemPedidoService extends AbstractService {
 
 	}
 
-	public boolean atualizar(ItemPedido i) {
+	public boolean atualizar(Produto p) {
 		EntityManager manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
-			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
-			Ipdao.atualizar(i);
+			ProdutoDAO Pdao = new ProdutoDAO(manager);
+			if(p.getCategoria() == null)
+				throw new Exception("Cardapio Sem categoria");
+			Pdao.atualizar(p);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
@@ -86,11 +84,11 @@ public class ItemPedidoService extends AbstractService {
 		return ret;
 	}
 
-	public ItemPedido buscar(ItemPedido i) {
+	public Produto buscar(Produto p) {
 		EntityManager manager = fac.createEntityManager();
 		try {
-			ItemPedidoDAO Ipdao = new ItemPedidoDAO(manager);
-			i = Ipdao.buscarPorId(i.getId());
+			ProdutoDAO Pdao = new ProdutoDAO(manager);
+			p = Pdao.buscarPorId(p.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (manager.getTransaction().isActive())
@@ -98,7 +96,7 @@ public class ItemPedidoService extends AbstractService {
 		} finally {
 			manager.close();
 		}
-		return i;
+		return p;
 	}
 
 }

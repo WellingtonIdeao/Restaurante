@@ -3,9 +3,7 @@ package service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-
 import dao.FuncionarioDAO;
-import model.EntityGeneric;
 import model.Funcionario;
 
 public class FuncionarioService extends AbstractService {

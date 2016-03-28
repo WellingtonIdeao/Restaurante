@@ -1,4 +1,5 @@
 package model;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,22 +9,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-@SequenceGenerator(name = "itemPed_id",sequenceName = "itemPed_seq",allocationSize = 1)
+@SequenceGenerator(name = "itemPed_id", sequenceName = "itemPed_seq", allocationSize = 1)
 public class ItemPedido implements EntityGeneric {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator = "itemPed_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "itemPed_id")
 	@Column(name = "itemPed_id")
 	private long id;
 	private int qtd;
 	private double precoitem;
-	
+
 	@ManyToOne
-	private Cardapio cardapio;
-	
+	private Produto produto;
+
 	@ManyToOne
 	private Pedido pedido;
-	
-	
+
 	@Override
 	public long getId() {
 		return this.id;
@@ -42,25 +42,22 @@ public class ItemPedido implements EntityGeneric {
 		this.qtd = qtd;
 	}
 
-
-	public Cardapio getCardapio() {
-		return cardapio;
+	public Produto getProduto() {
+		return this.produto;
 	}
 
-	public void setCardapio(Cardapio cardapio) {
-		this.cardapio = cardapio;
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
+
 	public double getPrecoitem() {
-		return  getPrecoitem();
+		return this.precoitem;
 	}
 
 	public void setPrecoitem(double precoitem) {
 		this.precoitem = precoitem;
 	}
-	private void subTotal(){
-		this.precoitem = this.qtd * getCardapio().getPreco();
-	}
-	
+
 	public Pedido getPedido() {
 		return pedido;
 	}
@@ -69,12 +66,20 @@ public class ItemPedido implements EntityGeneric {
 		this.pedido = pedido;
 	}
 
+	public void addProduto(int qtd, Produto produto) {
+		this.qtd = qtd;
+		this.produto = produto;
+		this.subTotal();
+	}
+
+	private void subTotal() {
+		this.precoitem = this.qtd * this.produto.getPreco();
+	}
+
 	@Override
 	public String toString() {
-		return "Id: "+getId()+" Descricao: "+this.cardapio.getNome()+" Quantidade: "+this.getQtd()+
-				" Total: R$ "+getPrecoitem();
+		return "Id: " + getId() + " Descricao: " + this.produto.getNome() + " Quantidade: " + this.getQtd()
+				+ " Total: R$ " + getPrecoitem();
 	}
-	
-	
 
 }

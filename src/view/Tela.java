@@ -1,119 +1,99 @@
 package view;
 
 import model.Cardapio;
-import model.Categoria;
-import model.Cliente;
-import model.Delivery;
-import model.Funcionario;
 import model.ItemPedido;
 import model.Mesa;
 import model.Tradicional;
-import service.CardapioService;
-import service.CategoriaService;
-import service.ClienteService;
-import service.DeliveryService;
 import service.MesaService;
-import service.PedidoService;
+import service.ProdutoService;
 import service.TradicionalService;
 
 public class Tela {
 
 	public static void main(String[] args)  {
 	
+		// CADASTRAR FUNCIONARIO
+//		Funcionario f = new Funcionario();
+//		f.setNome("Wellington Ideão");
+//		f.setLogin("guga");
+//		f.setSenha("123456");
+//		f.setTelefone("9999-9999");
+//		f.setEmail("guga123@gmail.com");
+//		f.setCpf("999.999.999.-99");
+//		f.setCargo("Gerente");
+//		f.setSalario(10000);		
+//		FuncionarioService fs = new FuncionarioService();
+//		fs.inserir(f);
+//		System.out.println(fs.listar());
+		
+		//CADASTRAR CLIENTE
 //		Cliente c = new Cliente();
+//		c.setNome("joão");
+//		c.setCpf("999.999.999-99");
+//		Calendar ca = Calendar.getInstance();
+//		ca.set(1995, 10, 9);
+//		Date date = ca.getTime();
+//		System.out.println(date);
+//		c.setDataNasc(date);
+//		c.setTelefone("9999-9999");		
 //		ClienteService cs = new ClienteService();
-//		c.setNome("guga");
-//		c.setCpf("777.777.777-77");
-//		Calendar  car = Calendar.getInstance();
-//		car.set(1987, 10, 9);
-//		c.setDataNasc(car.getTime());
-////		List<PedidoDelivery> delverys =  new  ArrayList<>();
-		
-		
-		// categoria
-		
-		Categoria categ = new Categoria();
-		CategoriaService catserv = new CategoriaService();
-//		categ.setNome("Alimentos");
-//		catserv.inserir(categ);	
-//		
-		//cardapio
-		CardapioService carserv = new CardapioService();
-		Cardapio cardapp = new Cardapio();
-//		cardapp.setNome("Prato Principal");
-//		//busca categoria
-		categ.setId(1);
-		categ = catserv.buscar(categ);
-//		cardapp.setCategoria(categ);
-//		carserv.inserir(cardapp);
-		
-		//item Cardapio
-	cardapp.setId(1);
-		cardapp = carserv.buscar(cardapp);
-//		ItemPedido item = new ItemPedido();
-//		item.setCardapio(cardapp);
-////		//pedido
-		
-////		ms.inserir(mesa);
-//		mesa.setId(1L);
-		Cliente c = new Cliente();
-		ClienteService cs = new ClienteService();
-//		c.setNome("JAMPA");
 //		cs.inserir(c);
-		c.setId(1l);
-//		c.setId(4);
-//		c.setNome("emOrdem");
-//	//	c.setNome("Guga");
-////		cs.atualizar(c);
-////		c = cs.buscar(c);
+//		System.out.println(cs.listar());
+		
+	//CADASTRAR CATEGORIA
+//		Categoria ct = new Categoria();
+//		CategoriaService cas = new CategoriaService();
+//		ct.setNome("Bebidas");
+//		cas.inserir(ct);
+//		System.out.println(cas.listar());	
+				
+		//CADASTRAR PRODUTO		
+//		Produto pro = new Cardapio();
+//		CategoriaService cas = new CategoriaService();
+//		Categoria ca = new Categoria();
+//		ca.setId(3);
+//		pro.setNome("refrigerante");
+//		pro.setCategoria(cas.buscar(ca));
+//		pro.setPreco(20);
+//		ProdutoService pros = new ProdutoService();
+//		pros.atualizar(pro);
+//		System.out.println(pros.listar());
+		
+		
+		//FAZER PEDIDO DELIVERY
+//		Delivery del = new Delivery();
+//		ItemPedido item = new ItemPedido();
+//		ProdutoService pros = new ProdutoService();
+//		ClienteService cs = new ClienteService();
+//		Cliente c =new Cliente();
+//		c.setId(3);
+//		del.setCliente(cs.buscar(c));
+//		Cardapio car = new Cardapio();
+//		car.setId(1);
+//		item.addProduto(2,pros.buscar(car));
+//		del.setItem(item);
+//		del.setItem(item);
+//		DeliveryService dser = new DeliveryService();
+//		dser.inserir(del);
+//		System.out.println(dser.listar());
 //		
-////		delivery.setItem(item)
-////		delivery.setCliente(c);
-		Delivery d = new Delivery();
-		Tradicional t = new Tradicional();
-		DeliveryService ps = new DeliveryService();
-		Mesa mesa = new Mesa();
-		MesaService ms = new MesaService();
+		//FAZER PEDIDO TRADICIONAL
+//		Tradicional tra = new Tradicional();
+//		ItemPedido item = new ItemPedido();
+//		ProdutoService pros = new ProdutoService();
+//		MesaService ms = new MesaService();
+//		Mesa mesa = new Mesa();
+//		mesa.setDescricao("Mesa 1");
 //		ms.inserir(mesa);
-		mesa.setId(2);
-		mesa = ms.buscar(mesa);
-//		t.setMesa(mesa);
-//		d.setItem(new ItemPedido());
-//		c = cs.buscar(c);
-//		d.setCliente(c);
-//		ps.inserir(d);
-		
-		//tradicional
-//		PedidoTradicionalService ts = new PedidoTradicionalService();
-//		Tradicional tradicional = new Tradicional();
-		ItemPedido i = new ItemPedido();
-//		tradicional.setMesa(mesa);
-//		i.setCardapio(cardapp);
-//		tradicional.setItem(i);
-//		ts.inserir(tradicional);
-		//delivery
-//PedidoDeliveryService pds = new PedidoDeliveryService();
-//Delivery de = new Delivery();
-//Cliente cliente = new Cliente();
-//ClienteService css = new ClienteService();
-//cliente.setId(1);
-//cliente = css.buscar(cliente);
-//CardapioService carser = new CardapioService();
-//Cardapio car = new Cardapio();
-//car.setId(1);
-//car = carser.buscar(car);
-//de.setCliente(cliente);
-//i.setCardapio(car);
-//de.setItem(i);
-//pds.inserir(de);
-PedidoService ppp= new TradicionalService();
-Cliente cccc= new Cliente();
-Tradicional eee = new Tradicional();
-Mesa m = new Mesa();
-eee.setMesa(mesa);
-Funcionario fun =new Funcionario();
-		System.out.println(eee);
-		
+//		mesa.setId(3);
+//		tra.setMesa(ms.buscar(mesa));
+//		Cardapio car = new Cardapio();
+//		car.setId(1);
+//		item.addProduto(5,pros.buscar(car));
+//		tra.setItem(item);
+//		TradicionalService ts = new TradicionalService();
+//		ts.inserir(tra);
+//		System.out.println(ts.listar());
 		
 		
 		

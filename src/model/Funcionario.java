@@ -8,7 +8,7 @@ public class Funcionario extends Usuario {
 	
 	private double salario;
 	private String cpf;
-	private Cargo cargo;
+	private String cargo;
 
 	public double getSalario() {
 		return salario;
@@ -26,11 +26,11 @@ public class Funcionario extends Usuario {
 		this.cpf = cpf;
 	}
 
-	public Cargo getCargo() {
+	public String getCargo() {
 		return cargo;
 	}
 
-	public void setCargo(Cargo cargo) {
+	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
 

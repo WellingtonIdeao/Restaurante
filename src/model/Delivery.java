@@ -1,6 +1,4 @@
 package model;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -30,7 +28,7 @@ public class Delivery extends Pedido {
 
 	@Override
 	public String toString() {
-		return "Id: "+getId()+" Data: "+getData()+" Total: "+this.getPrecoPedido()+" Status: "+getStatus()+" Cliente: "+this.cliente.getNome()+
+		return "Id: "+getId()+" Data: "+getData()+" Total: "+getPrecoPedido()+" Status: "+getStatus()+" Cliente: "+this.cliente.getNome()+
 				" Tipo: "+getClass().getSimpleName()+"\n";
 	}
 	

@@ -103,6 +103,7 @@ public abstract class Pedido implements EntityGeneric {
 
 	public void setItem(ItemPedido item) {
 		this.itens.add(item);
+		this.total();
 	}
 
 
@@ -113,6 +114,7 @@ public abstract class Pedido implements EntityGeneric {
 	public void setPrecoPedido(double precoPedido) {
 		this.precoPedido = precoPedido;
 	}
+	
 	private void total(){
 		double total = 0;
 		for(ItemPedido i: itens){

@@ -1,3 +1,4 @@
-/view/
-/service/
+/dao/
 /model/
+/service/
+/view/
