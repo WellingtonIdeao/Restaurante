@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ public class ItemPedido implements EntityGeneric {
 	private int qtd;
 	private double precoitem;
 
-	@ManyToOne
+	@ManyToOne( fetch = FetchType.EAGER)
 	private Produto produto;
 
 	@ManyToOne

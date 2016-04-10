@@ -53,7 +53,11 @@ public abstract class Produto implements EntityGeneric {
 	public double getPreco() {
 		return preco;
 	}
-		
+	
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}

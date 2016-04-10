@@ -1,77 +1,56 @@
 package service;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
 import dao.MesaDAO;
 import model.Mesa;
 
-public class MesaService extends AbstractService{
-	
+public class MesaService extends AbstractService<Mesa> {
+
+	public MesaService() {
+		this.dao = new MesaDAO();
+	}
+
+	@Override
 	public void inserir(Mesa m) {
-		EntityManager manager = fac.createEntityManager();
-			try {
-				MesaDAO Mdao = new MesaDAO(manager);
-				Mdao.inserir(m);
-				manager.getTransaction().begin();
-				manager.getTransaction().commit();
-			} catch (Exception e) {
-				e.printStackTrace();
-				if (manager.getTransaction().isActive())
-					manager.getTransaction().rollback();
-			} finally {
-				manager.close();
-			}	
-
-}
-
-	public List<Mesa> listar() {
-		EntityManager manager = fac.createEntityManager();
-		List<Mesa> list = null;
+		manager = fac.createEntityManager();
 		try {
-			MesaDAO Mdao = new MesaDAO(manager);
-			list = Mdao.listar();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return list;
-	}
+			dao.setManager(manager);
+			
+			// se a mesa for nula
+			if (m == null)
+				throw new Exception("Entidade passada para inserção é nula");
 
-	public boolean remover(Mesa m) {
-		EntityManager manager = fac.createEntityManager();
-		boolean ret = false;
-		try {
-			MesaDAO Mdao = new MesaDAO(manager);
-			Mdao.remover(m);
+			dao.inserir(m);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
-			ret = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
-			manager.close();
+			this.manager.close();
 		}
-		return ret;
-
 	}
 
+	@Override
 	public boolean atualizar(Mesa m) {
-		EntityManager manager = fac.createEntityManager();
+		manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
-			MesaDAO Mdao = new MesaDAO(manager);
-			Mdao.atualizar(m);
+			dao.setManager(manager);
+
+			// se entidade for nula
+			if (m == null) {
+				throw new Exception("Entidade passada para atualização é nula");
+			}
+
+			// se não for nula
+			dao.atualizar(m);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
@@ -80,20 +59,4 @@ public class MesaService extends AbstractService{
 		return ret;
 	}
 
-	public Mesa buscar(Mesa m) {
-		EntityManager manager = fac.createEntityManager();
-		try{
-			MesaDAO Mdao = new MesaDAO(manager);
-			m = Mdao.buscarPorId(m.getId());
-		}catch(Exception e){
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		}finally{
-			manager.close();
-		}
-		return m;
-	}
-
 }
-

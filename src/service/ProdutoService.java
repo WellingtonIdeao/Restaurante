@@ -1,20 +1,30 @@
 package service;
 
-import java.util.List;
-import javax.persistence.EntityManager;
 import dao.ProdutoDAO;
 import model.Produto;
 
-public class ProdutoService extends AbstractService {
+public class ProdutoService extends AbstractService<Produto> {
+
+	public ProdutoService() {
+		this.dao = new ProdutoDAO();
+	}
+
+	@Override
 	public void inserir(Produto p) {
-		EntityManager manager = fac.createEntityManager();
+		manager = fac.createEntityManager();
 		try {
+
+			// se o produto for nulo
+			if (p == null)
+				throw new Exception("Entidade passada para inserção é nula");
+
+			// se o produto não possui categoria
 			if (p.getCategoria() == null) {
-				throw new Exception("Cardapio Sem categoria");
+				throw new Exception("Produto Sem categoria");
 			}
 
-			ProdutoDAO Pdao = new ProdutoDAO(manager);
-			Pdao.inserir(p);
+			dao.setManager(manager);
+			dao.inserir(p);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 		} catch (Exception e) {
@@ -27,76 +37,31 @@ public class ProdutoService extends AbstractService {
 
 	}
 
-	public List<Produto> listar() {
-		EntityManager manager = fac.createEntityManager();
-		List<Produto> list = null;
-		try {
-			ProdutoDAO Pdao = new ProdutoDAO(manager);
-			list = Pdao.listar();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return list;
-	}
-
-	public boolean remover(Produto p) {
-		EntityManager manager = fac.createEntityManager();
-		boolean ret = false;
-		try {
-			ProdutoDAO Pdao = new ProdutoDAO(manager);
-			Pdao.remover(p);
-			manager.getTransaction().begin();
-			manager.getTransaction().commit();
-			ret = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return ret;
-
-	}
-
 	public boolean atualizar(Produto p) {
-		EntityManager manager = fac.createEntityManager();
+		manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
-			ProdutoDAO Pdao = new ProdutoDAO(manager);
-			if(p.getCategoria() == null)
-				throw new Exception("Cardapio Sem categoria");
-			Pdao.atualizar(p);
+			dao.setManager(manager);
+			// se entidade for nula
+			if (p == null)
+				throw new Exception("Entidade passada para atualização é nula");
+
+			// se entidade não tiver cardapio
+			if (p.getCategoria() == null)
+				throw new Exception("Produto Sem categoria");
+
+			dao.atualizar(p);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
 		return ret;
-	}
-
-	public Produto buscar(Produto p) {
-		EntityManager manager = fac.createEntityManager();
-		try {
-			ProdutoDAO Pdao = new ProdutoDAO(manager);
-			p = Pdao.buscarPorId(p.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return p;
 	}
 
 }

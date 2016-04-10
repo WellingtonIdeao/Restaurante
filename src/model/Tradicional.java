@@ -2,11 +2,15 @@ package model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+
 @Entity
 public class Tradicional extends Pedido {
-	
+
 	@ManyToOne
 	private Mesa mesa;
+
+	@ManyToOne
+	private Funcionario funcionario;
 
 	public Mesa getMesa() {
 		return mesa;
@@ -16,10 +20,19 @@ public class Tradicional extends Pedido {
 		this.mesa = mesa;
 	}
 
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
 	@Override
 	public String toString() {
-		return "Id: "+getId()+" Data: "+getData()+" Total: R$ "+getPrecoPedido()+" Status: "+getStatus()+" Cliente: "+this.mesa.getDescricao()+
-				"("+this.mesa.getId()+") Atendido: "+null+" Tipo: "+getClass().getSimpleName()+"\n";
+		return "Id: " + getId() + " Data: " + getData() + " Total: R$ " + getPrecoPedido() + " Status: " + getStatus()
+				+ " Cliente: " + this.mesa.getDescricao() + "(" + this.mesa.getId() + ") Atendido: " + null + " Tipo: "
+				+ getClass().getSimpleName() + "\n";
 
 	}
 

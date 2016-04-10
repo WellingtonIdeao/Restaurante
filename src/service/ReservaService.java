@@ -1,79 +1,62 @@
 package service;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
 import dao.ReservaDAO;
-
 import model.Reserva;
 
-public class ReservaService extends AbstractService {
-	public void inserir(Reserva r)  {
-		EntityManager manager = fac.createEntityManager();
-			try {
-				ReservaDAO Rdao = new ReservaDAO(manager);
-				if(r.getMesa() == null)
-					throw new Exception("Reserva sem mesa");
-				Rdao.inserir(r);
-				manager.getTransaction().begin();
-				manager.getTransaction().commit();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				if (manager.getTransaction().isActive())
-					manager.getTransaction().rollback();
-			} finally {
-				manager.close();
-			}	
+public class ReservaService extends AbstractService<Reserva> {
 
-}
-
-	public List<Reserva> listar() {
-		EntityManager manager = fac.createEntityManager();
-		List<Reserva> list = null;
-		try {
-			ReservaDAO Rdao = new ReservaDAO(manager);
-			list = Rdao.listar();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return list;
+	public ReservaService() {
+		this.dao = new ReservaDAO();
 	}
 
-	public boolean remover(Reserva r) {
-		EntityManager manager = fac.createEntityManager();
-		boolean ret = false;
+	@Override
+	public void inserir(Reserva r) {
+		manager = fac.createEntityManager();
 		try {
-			ReservaDAO Rdao = new ReservaDAO(manager);
-			Rdao.remover(r);
+			dao.setManager(manager);
+
+			// se a entidade for nula
+			if (r == null)
+				throw new Exception("Entidade passada para inserção é nula");
+
+			// se a reserva não possui mesa
+			if (r.getMesa() == null)
+				throw new Exception("Reserva sem mesa");
+			dao.inserir(r);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
-			ret = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
-		return ret;
 
 	}
 
+	@Override
 	public boolean atualizar(Reserva r) {
-		EntityManager manager = fac.createEntityManager();
+		manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
-			ReservaDAO Rdao = new ReservaDAO(manager);
-			Rdao.atualizar(r);
+			dao.setManager(manager);
+
+			// se reserva for nula
+			if (r == null) {
+				throw new Exception("Entidade passada para atualização é nula");
+			}
+
+			// se a entidade não tiver mesa
+			if (r.getMesa() == null)
+				throw new Exception("Reserva sem mesa");
+
+			dao.atualizar(r);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
@@ -82,20 +65,4 @@ public class ReservaService extends AbstractService {
 		return ret;
 	}
 
-	public Reserva buscar(Reserva r) {
-		EntityManager manager = fac.createEntityManager();
-		try{
-			ReservaDAO Rdao = new ReservaDAO(manager);
-			r = Rdao.buscarPorId(r.getId());
-		}catch(Exception e){
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		}finally{
-			manager.close();
-		}
-		return r;	
-	}
-
 }
-

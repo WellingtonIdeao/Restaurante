@@ -1,20 +1,29 @@
 package service;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
 import dao.FuncionarioDAO;
 import model.Funcionario;
 
-public class FuncionarioService extends AbstractService {
+public class FuncionarioService extends AbstractService<Funcionario> {
 
-	public void inserir(Funcionario f)  {
-		EntityManager manager = fac.createEntityManager();
-		
+	public FuncionarioService() {
+
+		this.dao = new FuncionarioDAO();
+
+	}
+
+	@Override
+	public void inserir(Funcionario f) {
+		manager = fac.createEntityManager();
+
 		try {
 
-			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
-			Fdao.inserir(f);
+			dao.setManager(manager);
+
+			// se o funcionario for nulo
+			if (f == null)
+				throw new Exception("Entidade passada para inserção é nula");
+
+			dao.inserir(f);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 
@@ -28,37 +37,26 @@ public class FuncionarioService extends AbstractService {
 
 	}
 
-	public boolean remover(Funcionario f) {
-		EntityManager manager = fac.createEntityManager();
-		boolean ret = false;
-		try {
-			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
-			Fdao.remover(f);
-			manager.getTransaction().begin();
-			manager.getTransaction().commit();
-			ret = true;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return ret;
-	}
-
+	@Override
 	public boolean atualizar(Funcionario f) {
-		EntityManager manager = fac.createEntityManager();
+		manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
-			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
-			Fdao.atualizar(f);
+			dao.setManager(manager);
+
+			// se entidade for nula
+			if (f == null) {
+				throw new Exception("Entidade passada para atualização é nula");
+			}
+
+			// se não for nula
+			dao.atualizar(f);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
@@ -68,34 +66,4 @@ public class FuncionarioService extends AbstractService {
 		return ret;
 	}
 
-	public List<Funcionario> listar() {
-		EntityManager manager = fac.createEntityManager();
-		List<Funcionario> list = null;
-		try {
-			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
-			list = Fdao.listar();
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return list;
-	}
-
-	public Funcionario buscar(Funcionario f) {
-		EntityManager manager = fac.createEntityManager();
-		try {
-			FuncionarioDAO Fdao = new FuncionarioDAO(manager);
-			f = Fdao.buscarPorId(f.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return f;
-	}
 }

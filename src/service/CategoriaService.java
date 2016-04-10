@@ -1,78 +1,55 @@
 package service;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
 import dao.CategoriaDAO;
 import model.Categoria;
 
-public class CategoriaService extends AbstractService {
+public class CategoriaService extends AbstractService<Categoria> {
 
+	public CategoriaService() {
+		this.dao = new CategoriaDAO();
+	}
+
+	@Override
 	public void inserir(Categoria c) {
-		EntityManager manager = fac.createEntityManager();
+		manager = fac.createEntityManager();
 		try {
-			CategoriaDAO Cdao = new CategoriaDAO(manager);
-			Cdao.inserir(c);
+			dao.setManager(manager);
+
+			// se a categoria for nula
+			if (c == null)
+				throw new Exception("Entidade passada para inserção é nula");
+			dao.inserir(c);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			if(manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-
-	}
-
-	public List<Categoria> listar() {
-		EntityManager manager = fac.createEntityManager();
-		List<Categoria> list = null;
-		try {
-			CategoriaDAO Cdao = new CategoriaDAO(manager);
-			list = Cdao.listar();
-		} catch (Exception e) {
-			e.printStackTrace();
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
 			manager.close();
 		}
-		return list;
-	}
-
-	public boolean remover(Categoria c) {
-		EntityManager manager = fac.createEntityManager();
-		boolean ret = false;
-		try {
-			CategoriaDAO Cdao = new CategoriaDAO(manager);
-			Cdao.remover(c);
-			manager.getTransaction().begin();
-			manager.getTransaction().commit();
-			ret = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		} finally {
-			manager.close();
-		}
-		return ret;
 
 	}
 
+	@Override
 	public boolean atualizar(Categoria c) {
-		EntityManager manager = fac.createEntityManager();
+		manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
-			CategoriaDAO Cdao = new CategoriaDAO(manager);
-			Cdao.atualizar(c);
+			dao.setManager(manager);
+
+			// se entidade for nula
+			if (c == null) {
+				throw new Exception("Entidade passada para atualização é nula");
+			}
+
+			// se não for nula
+			dao.atualizar(c);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 		} finally {
@@ -80,20 +57,4 @@ public class CategoriaService extends AbstractService {
 		}
 		return ret;
 	}
-
-	public Categoria buscar(Categoria c) {
-		EntityManager manager = fac.createEntityManager();
-		try{
-			CategoriaDAO Cdao = new CategoriaDAO(manager);
-			c = Cdao.buscarPorId(c.getId());
-		}catch(Exception e){
-			e.printStackTrace();
-			if (manager.getTransaction().isActive())
-				manager.getTransaction().rollback();
-		}finally{
-			manager.close();
-		}
-		return c;	
-	}
-
 }
