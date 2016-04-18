@@ -1,29 +1,30 @@
 package service;
 
 import dao.ProdutoDAO;
+import dao.PromocaoDAO;
+import model.Cardapio;
 import model.Produto;
+import model.Promocao;
 
-public class ProdutoService extends AbstractService<Produto> {
+public class PromocaoService extends AbstractService<Promocao> {
 
-	public ProdutoService() {
-		this.dao = new ProdutoDAO();
+	
+	public PromocaoService(){
+		this.dao = new PromocaoDAO();
+		
 	}
-
 	@Override
-	public void inserir(Produto p) {
+	public void inserir(Promocao pr) {
 		manager = fac.createEntityManager();
+
 		try {
 			dao.setManager(manager);
-			// se o produto for nulo
-			if (p == null)
+
+			// se a promocão for nula
+			if (pr == null)
 				throw new Exception("Entidade passada para inserção é nula");
 
-			// se o produto não possui categoria
-			if (p.getCategoria() == null) {
-				throw new Exception("Produto Sem categoria");
-			}
-			
-			dao.inserir(p);
+			dao.inserir(pr);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 		} catch (Exception e) {
@@ -34,22 +35,28 @@ public class ProdutoService extends AbstractService<Produto> {
 			manager.close();
 		}
 
+
+		
 	}
 
-	public boolean atualizar(Produto p) {
+	@Override
+	public boolean atualizar(Promocao pr) {
 		manager = fac.createEntityManager();
 		boolean ret = false;
 		try {
 			dao.setManager(manager);
+			ProdutoDAO Pdao = new ProdutoDAO();
+			Pdao.setManager(manager);
 			// se entidade for nula
-			if (p == null)
+			if (pr == null) {
 				throw new Exception("Entidade passada para atualização é nula");
-
-			// se entidade não tiver cardapio
-			if (p.getCategoria() == null)
-				throw new Exception("Produto Sem categoria");
-
-			dao.atualizar(p);
+			}
+			//se existir cardapios na promocao
+			if(!pr.getCardapios().isEmpty()){
+				for(Produto p: pr.getCardapios())
+					Pdao.atualizar(p);
+			}	
+			dao.atualizar(pr);
 			manager.getTransaction().begin();
 			manager.getTransaction().commit();
 			ret = true;
@@ -61,6 +68,7 @@ public class ProdutoService extends AbstractService<Produto> {
 			manager.close();
 		}
 		return ret;
-	}
 
+	}
+	
 }

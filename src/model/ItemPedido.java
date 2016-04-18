@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +19,7 @@ public class ItemPedido implements EntityGeneric {
 	@Column(name = "itemPed_id")
 	private long id;
 	private int qtd;
-	private double precoitem;
-
+	
 	@ManyToOne( fetch = FetchType.EAGER)
 	private Produto produto;
 
@@ -51,14 +52,6 @@ public class ItemPedido implements EntityGeneric {
 		this.produto = produto;
 	}
 
-	public double getPrecoitem() {
-		return this.precoitem;
-	}
-
-	public void setPrecoitem(double precoitem) {
-		this.precoitem = precoitem;
-	}
-
 	public Pedido getPedido() {
 		return pedido;
 	}
@@ -67,14 +60,16 @@ public class ItemPedido implements EntityGeneric {
 		this.pedido = pedido;
 	}
 
-	public void subTotal() {
-		this.precoitem = this.qtd * this.produto.getPreco();
+	public BigDecimal subTotal() {
+		BigDecimal qtd =  new BigDecimal(String.valueOf(this.qtd));
+		return this.produto.getPreco().multiply(qtd);
 	}
 
 	@Override
 	public String toString() {
 		return "Id: " + getId() + " Descricao: " + this.produto.getNome() + " Quantidade: " + this.getQtd()
-				+ " Total: R$ " + getPrecoitem();
+				+ " Total: R$ " + subTotal();
 	}
+
 
 }

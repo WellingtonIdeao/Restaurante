@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,14 +15,15 @@ import javax.persistence.SequenceGenerator;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "prod_id",sequenceName= "prod_seq",allocationSize = 1)
-public abstract class Produto implements EntityGeneric {
+public abstract class Produto implements EntityGeneric, Observer {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prod_id")
 	@Column(name = "prod_id")
 	private long id;
 	
 	private String nome;
-	private double preco;
+	private BigDecimal preco;
 	
 	@ManyToOne
 	private Categoria categoria;
@@ -45,12 +48,12 @@ public abstract class Produto implements EntityGeneric {
 	}
 
 	
-	public void setPreco(double preco) {
-		this.preco = preco;
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco ;
 	}
 	
 	
-	public double getPreco() {
+	public BigDecimal getPreco() {
 		return preco;
 	}
 	
@@ -67,5 +70,13 @@ public abstract class Produto implements EntityGeneric {
 		return getNome()+" R$ "+getPreco();
 	}
 
-	
+	@Override
+	public boolean equals(Object obj) {
+		Produto prod = (Produto)obj;
+		if(prod.getId() == this.getId())
+			return true;
+		else
+			return false;
+	}
+
 }

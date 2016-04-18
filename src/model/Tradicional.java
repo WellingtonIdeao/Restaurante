@@ -32,7 +32,7 @@ public class Tradicional extends Pedido {
 	public String toString() {
 		return "Id: " + getId() + " Data: " + getData() + " Total: R$ " + getPrecoPedido() + " Status: " + getStatus()
 				+ " Cliente: " + this.mesa.getDescricao() + "(" + this.mesa.getId() + ") Atendido: " + null + " Tipo: "
-				+ getClass().getSimpleName() + "\n";
+				+ getClass().getSimpleName() + this.getItens()+"\n";
 
 	}
 

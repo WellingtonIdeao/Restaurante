@@ -1,173 +1,260 @@
 package view;
 
+import model.Cardapio;
+import model.Categoria;
+import model.Cliente;
+import model.Mesa;
+import model.Produto;
+import model.Promocao;
+import model.Reserva;
 import model.Tradicional;
-import service.DeliveryService;
+import service.CategoriaService;
+import service.ClienteService;
+import service.MesaService;
+import service.ProdutoService;
+import service.PromocaoService;
+import service.ReservaService;
 import service.TradicionalService;
 
 public class Tela {
 
 	public static void main(String[] args)  {
 	
-		// CADASTRAR FUNCIONARIO
+		// FUNCIONARIO//
+		
+		// CADASTRA
 //		Funcionario f = new Funcionario();
-//		f.setId(9);
-//		f.setLogin("IdeaoTESTE");
-//		f.setSenha("123456");
-//		f.setTelefone("9999-9999");
-//		f.setEmail("guga123@gmail.com");
-//		f.setCpf("999.999.999.-99");
-//		f.setCargo("Analista");
-//		f.setSalario(20000);		
-//		FuncionarioService fs = new FuncionarioService();
-//		f = fs.buscar(f);
-//		fs.inserir(f);
-//		f.setNome("Guga Ideão");
-//		f.setSalario(10);
-//		fs.atualizar(f);
-//		System.out.println(f);
-//		fs.remover(f);
-//		System.out.println(fs.listar());
+//		FuncionarioService fService = new FuncionarioService();
+//		f.setNome("Jose wellington");
+//		f.setCargo("Atendente");
+//		f.setSalario(3000);
+//		f.setEmail("gugaboy3@gmail.com");
+//		fService.inserir(f);
+
+		//REMOVE
+//		f.setId(2);
+//		f = fService.buscar(f);
+//		fService.remover(f)
 		
-		//CADASTRAR CLIENTE
-//		Cliente c = new Cliente();
-//		c.setId(11);
-		//		c.setNome("Pedro");
-//		c.setCpf("999.999.999-99");
-//		Calendar ca = Calendar.getInstance();
-//		ca.set(1995, 10, 9);
-//		Date date = ca.getTime();
-////		System.out.println(date);
-//		c.setDataNasc(date);
-//		c.setTelefone("9999-9999");		
-//		ClienteService cs = new ClienteService();
-//		c = cs.buscar(c);
-//		System.out.println(c.getPedidos());
+		//ATUALIZA
+//		f.setId(1);
+//		f = fService.buscar(f);
+//		f.setSalario(4000);
+//		f.setCpf("777777777777-77");
+//		fService.atualizar(f);
+//		System.out.println(fService.listar());
+		
+		
+		//CADASTRAR CLIENTE//
+		
+		Cliente c = new Cliente();
+		ClienteService cService = new ClienteService();
+		
+		//CADASTRA
 //		c.setNome("guga");
-//		cs.atualizar(c);
-//		cs.remover(c);
-//		cs.inserir(c);
-//		System.out.println(cs.listar());
-//		
-		//Reserva
-//		ReservaService rs = new ReservaService();
-//		Reserva re = new Reserva();
+//		c.setEnde("miguel inacio", "jose americo", "João pessoa", 10, "5800-000", "casa");
+//		c.setCpf("777777777777-77");
+//		Date data = Calendar.getInstance().getTime();
+//		c.setDataNasc(data);
+//		cService.inserir(c);
+//		System.out.println(cService.listar());
 		
-//		rs.inserir(re);
-//		MesaService ms = new MesaService();
-//		Mesa m = new Mesa();
-//		m.setId(1);
-//		m = ms.buscar(m);
-//		re.setMesa(m);
-//		rs.inserir(re);
-//		re.setId(1);
-//		re = rs.buscar(re);
-//		rs.atualizar(re);
-//		m.setCapacidade(10);
-//		ms.atualizar(m);
-//		rs.remover(re);
+		//ATUALIZA
+//		c.setId(10);
+//		c = cService.buscar(c);
+//		c.setNome("Wellington Ideao");
+//		cService.atualizar(c);
+//		System.out.println(cService.listar());
+		
+		//REMOVE
+//		c.setId(4);
+//		c = cService.buscar(c);
+//		cService.remover(c);
+//		System.out.println(cService.listar());
+		
+		// CADASTRAR MESA
+		
+		Mesa m = new Mesa();
+		MesaService mService = new MesaService();
+		//CADASTRA
+//		m.setCapacidade(6);
 //		m.setDescricao("Mesa 1");
-//		ms.inserir(m);
+//		mService.inserir(m);
+//		System.out.println(mService.listar());
 		
-//	System.out.println(rs.listar());
+		//ATUALIZA
 		
+//		m.setId(1);
+//		m = mService.buscar(m);
+//		m.setCapacidade(2);
+//		mService.atualizar(m);
+//		System.out.println(mService.listar());
 		
+		//REMOVE
+//		m.setId(1);
+//		m = mService.buscar(m);
+//		mService.remover(m);
+//		System.out.println(mService.listar());
 		
-	//CADASTRAR CATEGORIA
-//		Categoria ct = new Categoria();
-//		CategoriaService cas = new CategoriaService();
-//		cas.inserir(ct);
-//		ct.setId(4);
-//		ct = cas.buscar(ct);
-//		ct.setNome("Salgados");
-//		ct.setNome("Bebibas");
-//		cas.atualizar(ct);
-//		cas.remover(ct);
-//		System.out.println(cas.listar());	
+		//CADASTRAR CATEGORIA
+		Categoria ca = new Categoria();
+		CategoriaService caService = new CategoriaService();
+		
+		//CADASTRA
+//		ca.setNome("Doces");
+//		caService.inserir(ca);
+//		System.out.println(caService.listar());
+		
+		//ATUALIZA
+//		ca.setId(1);
+//		ca = caService.buscar(ca);
+//		ca.setNome("Salgado");
+//		caService.atualizar(ca);
+//		System.out.println(caService.listar());
+		
+		//REMOVE
+//		ca.setId(2);
+//		ca = caService.buscar(ca);
+//		caService.remover(ca);
+//		System.out.println(caService.listar());
+		
 				
-		//CADASTRAR PRODUTO		
-//		Produto pro = new Cardapio();
-//		pro.setId(4);
-//		CategoriaService cas = new CategoriaService();
-//		Categoria ca = new Categoria();
-//		ProdutoService pros = new ProdutoService();
-//		pro = pros.buscar(pro);
-//		ca.setId(3);
-//		pro.setCategoria(cas.buscar(ca));
-//		pro.setPreco(20);
-//		pro.setNome("coxinha");
-//		pros.atualizar(pro);
-//		pros.inserir(pro);
-//		pros.remover(pro);
-//		System.out.println(pros.listar());
+		//CADASTRAR RESERVA
+		Reserva re = new Reserva();
+		ReservaService reService = new ReservaService();
+//		Mesa me = new Mesa();
+//		MesaService ms = new MesaService();
+//		me.setId(2);
+//		me = ms.buscar(me);
+//		//CADASTRA
+//		re.setNumPessoas(3);
+//		re.setResponsavel("João");
+//		re.setMesa(me);
+//		reService.inserir(re);
+		
+		//ATUALIZA
+//		re.setId(1);
+//		re = reService.buscar(re);
+//		re.setResponsavel("Guga");
+//		reService.atualizar(re);
+//		System.out.println(reService.listar());
+		
+		//REMOVE
+//		re.setId(2);
+//		re = reService.buscar(re);
+//		reService.remover(re);
+//		System.out.println(reService.listar());
+		
+		
+		//CADASTRAR PROMOCAO
+		Promocao promocao = new  Promocao();
+		PromocaoService proService = new PromocaoService();
+		
+		//CADASTRA
+//		promocao.setDescricao("Final da Ano");
+//		proService.inserir(promocao);
+//		System.out.println(proService.listar());
+		
+		//ATUALIZA
+//		promocao.setId(1);
+//		promocao = proService.buscar(promocao);
+//		promocao.setDescricao("Promocao de fim de ano!");
+//		proService.atualizar(promocao);
+//		System.out.println(proService.listar());
+		
+		//REMOVE
+//		promocao.setId(2);
+//		promocao = proService.buscar(promocao);
+//		proService.remover(promocao);
+//		System.out.println(proService.listar());
+		
+		//PRODUTO
+		Produto produto = new Cardapio();
+		ProdutoService prodService = new ProdutoService();
+		Categoria cat = new Categoria();
+		CategoriaService cas = new CategoriaService();
+		Promocao promo = new Promocao();
+		PromocaoService promocaoService = new PromocaoService();
+//		//CADASTRAR
+//		produto.setId(5);
+//		produto.setNome("guaraná");
+//		produto.setPreco(new BigDecimal("3.00"));
+//		cat.setId(3);
+//		cat = cas.buscar(cat);
+//		produto.setCategoria(cat);
+//		prodService.inserir(produto);
+//		System.out.println(prodService.listar());
+		
+		//CADASTRAR COM PROMOCAO
+		
+//		promo.setId(1);
+//		promo = promocaoService.buscar(promo);
+//		Produto prodEmPromo = new Cardapio(promo);
+//		prodEmPromo.setNome("guaraná");
+//		prodEmPromo.setPreco(new BigDecimal("3.00"));
+//		cat.setId(3);
+//		cat = cas.buscar(cat);
+//		prodEmPromo.setCategoria(cat);
+//		prodService.inserir(prodEmPromo);
+		
+		//ATUALIZA
+//		produto.setId(2);
+//		produto = prodService.buscar(produto);
+//		Cardapio card = (Cardapio)produto;
+//		promo.setId(1);
+//		promo = promocaoService.buscar(promo);
+//		card.setPromocao(promo);
+//		prodService.atualizar(card);
+//		System.out.println(prodService.listar());
+		
+		//BUSCAR LISTA DE CARDAPIOS
+//		promo.setId(1);
+//		promo = promocaoService.buscar(promo);
+//		System.out.println(promo.getCardapios());
+		
+		//REMOVE
+//		produto.setId(4);
+//		produto = prodService.buscar(produto);
+//		prodService.remover(produto);
+//		System.out.println(prodService.listar());
+
+		//APLICAR PROMOCAO
+		
+//		PromocaoService promoService = new PromocaoService();
+//		promocao.setId(1);
+//		promocao = proService.buscar(promocao);
+//		promocao.removeObserver(card);
+//		promoService.atualizar(promocao);
+//		Desconto desconto = new Desconto10();
+//		promocao.setDesconto(desconto);
+//		System.out.println(promocao.getCardapios());
 		
 		
 		//FAZER PEDIDO DELIVERY
-//		DeliveryService ds = new DeliveryService();
-//		Delivery del = new Delivery();
-//		ProdutoService pros = new ProdutoService();
-//		ClienteService cs = new ClienteService();
-//		Cliente c = new Cliente();
-//		c.setId(11);
+//		Delivery delivery = new Delivery();
+//		DeliveryService delService = new DeliveryService();
+//		produto.setId(1);
+//		produto = prodService.buscar(produto);
+//		c.setId(5);
+//		c = cService.buscar(c);
+//		delivery.setCliente(c);
+//		delivery.addProduto(2, produto);
+//		delivery.addProduto(1, produto);
+//		delService.inserir(delivery);
 		
-//		System.out.println();
-//		c = cs.buscar(c);
-//		del.setCliente(c);
-//		CategoriaService cats = new CategoriaService();
-//		Produto car = new Cardapio();
-//		car.setId(5);
-//		del.addProduto(2,pros.buscar(car));
-//		ds.inserir(del);
-//		del.setId(1);
-//		del = ds.buscar(del);
-//		//System.out.println(del.getTrocoPara());
-//		del.setTrocoPara(50);
-//		ds.atualizar(del);
-//		ds.remover(del);
-//		System.out.println(ds.listar());
-//		car = pros.buscar(car);
-//		ds.inserir(del);
-		
-		
-
-
-//		del.addProduto(3, car);
-//		DeliveryService dser = new DeliveryService();
-//		ds.inserir(del);
-//		System.out.println(dser.listar());
 		
 		//FAZER PEDIDO TRADICIONAL
-		Tradicional tra = new Tradicional();
-//		ProdutoService pros = new ProdutoService();
-//		MesaService ms = new MesaService();
-//		Mesa mesa = new Mesa();
-//		mesa.setId(1);
-//		mesa = ms.buscar(mesa);
-//		tra.setMesa(mesa);
-//		mesa.setDescricao("Mesa 1");
-//		ms.inserir(mesa);
-//		mesa.setId(3);
-//		tra.setMesa(ms.buscar(mesa));
-//		Produto car = new Cardapio();
-//		car.setId(5);
-//		car = pros.buscar(car);
-////		car.setPreco(10);
-////		pros.atualizar(car);
-//		//		car.setId(1);
-////		car = pros.buscar(car);
-//		tra.addProduto(3,car);
-		TradicionalService ts = new TradicionalService();
-		tra.setId(2);
-		tra = ts.buscar(tra);
-		ts.remover(tra);
-//		tra.setStatus(Status.ATENDIDO);
-//		ts.inserir(tra);
-//		ts.atualizar(tra);
-		System.out.println(ts.listar());
-//		
-//		c = cs.buscar(c);
-//		System.out.println(c.getPedidos());
 		
-		
+//		Tradicional tradicional = new Tradicional();
+//		TradicionalService traSerrvice = new TradicionalService();
+//		produto.setId(1);
+//		produto = prodService.buscar(produto);
+//		tradicional.addProduto(2, produto);
+//		m.setId(2);
+//		m = mService.buscar(m);
+//		tradicional.setMesa(m);
+//		traSerrvice.inserir(tradicional);
+//		System.out.println(traSerrvice.listar());
 		
 		
 	}

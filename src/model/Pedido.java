@@ -1,5 +1,6 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
@@ -28,14 +28,14 @@ public abstract class Pedido implements EntityGeneric {
 	@Column(name = "pedido_id")
 	private long id;
 	private String telefone;
-	private double precoPedido;
+	private BigDecimal precoPedido;
 	private Status status;
 
 	@Temporal(TemporalType.DATE)
 	private Date data;
 
 	@OneToMany(mappedBy = "pedido", fetch = FetchType.EAGER)
-	private List<ItemPedido> itens;
+	protected List<ItemPedido> itens;
 
 	public Pedido() {
 		this.itens = new ArrayList<>();
@@ -91,29 +91,25 @@ public abstract class Pedido implements EntityGeneric {
 		this.total();
 	}
 
-	public double getPrecoPedido() {
+	public BigDecimal getPrecoPedido() {
 		return this.precoPedido;
 	}
 
-	public void setPrecoPedido(double precoPedido) {
-		this.precoPedido = precoPedido;
-	}
 
 	public void addProduto(int qtd, Produto produto) {
 		ItemPedido item = new ItemPedido();
 		item.setProduto(produto);
 		item.setQtd(qtd);
 		this.itens.add(item);
-		item.subTotal();
 		this.total();
 	}
 
-	private void total() {
-		double total = 0;
+	protected void total() {
+		double temp = 0;
 		for (ItemPedido i : itens) {
-			total += i.getPrecoitem();
+			temp += i.subTotal().doubleValue();
 		}
-		this.precoPedido = total;
+		this.precoPedido = new BigDecimal(String.valueOf(temp));
 
 	}
 

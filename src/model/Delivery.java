@@ -31,5 +31,6 @@ public class Delivery extends Pedido {
 		return "Id: "+getId()+" Data: "+getData()+" Total: "+getPrecoPedido()+" Status: "+getStatus()+" Cliente: "+this.cliente.getNome()+
 				" Tipo: "+getClass().getSimpleName()+"\n";
 	}
-	
+
+			
 }
